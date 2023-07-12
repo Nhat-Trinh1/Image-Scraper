@@ -56,5 +56,3 @@ function saveImage (filePath) {
 }
 
 scanDirectories(source)
-
-//hello
