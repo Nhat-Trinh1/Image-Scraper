@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const source = '/'
+const source = '/Users/nhattrinh/Desktop'
 const destination = '/Users/nhattrinh/Documents/test'
 
 /* Takes source as input and recursively scans directories
@@ -10,7 +10,6 @@ function scanDirectories (input) {
   /* Synchrously reads contents in dir and returns an
   array with all file names */
   const files = fs.readdirSync(input)
-
   /* Loops over each file in files array to check whether there
   are images to save */
   files.forEach ((item) => {
@@ -39,13 +38,20 @@ function isImage (fileName) {
   }
 }
 
-// Saves images to destination
+// Renames images and saves them to destination
+let counter = 1
 function saveImage (filePath) {
-  // Saves filename in variable
-  const fileName = path.basename(filePath)
+  //Create a standardized name for image and saves it into fileName
+  const fileExt = path.extname(filePath)
+  const fileName = `image${counter}${fileExt}`
+  counter++
+  //Creates a destinationPath by joining destination and fileName
   const destinationPath = path.join(destination, fileName)
+  //Creates a readable stream from a source
   const readStream = fs.createReadStream(filePath)
+  //Creates a writeable stream in the destination
   const writeStream = fs.createWriteStream(destinationPath)
+  //Allows the images to be saved in test folder
   readStream.pipe(writeStream)
 }
 
